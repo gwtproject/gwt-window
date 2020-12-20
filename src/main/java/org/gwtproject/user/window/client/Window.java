@@ -269,8 +269,8 @@ public class Window {
     }
 
     /**
-     * Builds the immutable map from String to List<String> that we'll return in getParameterMap().
-     * Package-protected for testing.
+     * Builds the immutable map from String to {@code List<String>} that we'll return in
+     * getParameterMap(). Package-protected for testing.
      *
      * @return a map from the
      */

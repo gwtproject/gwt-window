@@ -1,12 +1,11 @@
-import java.time.Year
-import net.ltgt.gradle.errorprone.CheckSeverity
 import net.ltgt.gradle.errorprone.errorprone
+import java.time.Year
 
 plugins {
     `java-library`
-    id("net.ltgt.errorprone") version "1.1.1"
-    id("com.github.sherter.google-java-format") version "0.8"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("net.ltgt.errorprone") version "1.3.0"
+    id("com.github.sherter.google-java-format") version "0.9"
+    id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
     id("com.github.hierynomus.license") version "0.15.0"
     id("local.maven-publish")
 }
@@ -29,16 +28,16 @@ repositories {
 }
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.3.4")
+    errorprone("com.google.errorprone:error_prone_core:2.5.1")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 
     api("org.gwtproject.event:gwt-logical-event:1.0.0-RC1")
     api("org.gwtproject.http:gwt-http:1.0.0-RC2")
-    implementation("com.google.elemental2:elemental2-dom:1.0.0")
-    implementation("com.google.elemental2:elemental2-core:1.0.0")
+    implementation("com.google.elemental2:elemental2-dom:1.1.0")
+    implementation("com.google.elemental2:elemental2-core:1.1.0")
     implementation("com.google.jsinterop:base:1.0.0")
 
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.gwt:gwt-user:2.9.0")
     testImplementation("com.google.gwt:gwt-dev:2.9.0")
 }
@@ -50,7 +49,10 @@ tasks.withType<JavaCompile>().configureEach {
     if (JavaVersion.current().isJava9Compatible) {
         options.compilerArgs.addAll(arrayOf("--release", java.sourceCompatibility.majorVersion))
     }
-    options.errorprone.check("StringSplitter", CheckSeverity.OFF)
+    options.errorprone {
+        disable("StringSplitter")
+        disable("JavaUtilDate")
+    }
 }
 
 sourceSets {
@@ -102,7 +104,7 @@ googleJavaFormat {
     exclude("target/")
 }
 ktlint {
-    version.set("0.36.0")
+    version.set("0.40.0")
     enableExperimentalRules.set(true)
 }
 
